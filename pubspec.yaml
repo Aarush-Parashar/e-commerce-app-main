@@ -83,6 +83,7 @@ flutter:
   # Assets
   assets:
     - images/App_logo.jpg
+    - images/App-logo.jpg
 
 # App icon config
 flutter_launcher_icons:
