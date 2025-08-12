@@ -68,8 +68,11 @@ dependencies:
   # firebase_core: ^2.10.0
   # firebase_messaging: ^14.4.1
   # connectivity_plus: ^3.0.6
+<<<<<<< HEAD
   google_sign_in: ^6.2.1
   flutter_facebook_auth: ^6.1.1
+=======
+>>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
 
 dev_dependencies:
   flutter_test:
@@ -86,14 +89,21 @@ flutter:
   assets:
     - images/App_logo.jpg
     - images/App-logo.jpg
+<<<<<<< HEAD
     - images/AppLogo.jpg
     - images/logo.png
     - images/google.png
     - images/facebook.jpeg
+=======
+>>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
 
 # App icon config
 flutter_launcher_icons:
   android: true
   ios: true
+<<<<<<< HEAD
   image_path: "images/logo.png"
+=======
+  image_path: "images/App_logo.jpg"
+>>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
 

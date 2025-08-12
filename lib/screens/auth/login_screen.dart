@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+<<<<<<< HEAD
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+=======
+>>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
 import '../../utils/app_colors.dart';
 import '../../utils/app_routes.dart';
 import '../../services/auth_service.dart';
@@ -89,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+<<<<<<< HEAD
   // GOOGLE SIGN-IN - FIXED METHOD CALL
   Future<void> _handleGoogleLogin() async {
     try {
@@ -128,6 +132,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+=======
+>>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,11 +171,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 24),
 
+<<<<<<< HEAD
                 // OAuth Buttons
                 _buildOAuthButtons(),
 
                 const SizedBox(height: 24),
 
+=======
+>>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
                 // Sign Up Link
                 _buildSignUpLink(),
 
@@ -201,6 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ],
           ),
+<<<<<<< HEAD
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Padding(
@@ -212,6 +222,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 fit: BoxFit.contain,
               ),
             ),
+=======
+          child: const Icon(
+            Icons.shopping_basket_rounded,
+            size: 40,
+            color: Colors.white,
+>>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
           ),
         ),
 
@@ -336,6 +352,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+<<<<<<< HEAD
   Widget _buildOAuthButtons() {
     return Column(
       children: [
@@ -372,6 +389,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+=======
+>>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   Widget _buildSignUpLink() {
     return Center(
       child: RichText(
@@ -402,4 +421,8 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249

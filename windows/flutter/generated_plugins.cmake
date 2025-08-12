@@ -4,7 +4,10 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_windows
+<<<<<<< HEAD
   flutter_secure_storage_windows
+=======
+>>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   permission_handler_windows
   url_launcher_windows
 )
