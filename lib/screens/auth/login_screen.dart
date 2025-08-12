@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-<<<<<<< HEAD
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
 import '../../utils/app_colors.dart';
 import '../../utils/app_routes.dart';
 import '../../services/auth_service.dart';
@@ -92,7 +89,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-<<<<<<< HEAD
   // GOOGLE SIGN-IN - FIXED METHOD CALL
   Future<void> _handleGoogleLogin() async {
     try {
@@ -132,8 +128,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,14 +165,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 24),
 
-<<<<<<< HEAD
                 // OAuth Buttons
                 _buildOAuthButtons(),
 
                 const SizedBox(height: 24),
 
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
                 // Sign Up Link
                 _buildSignUpLink(),
 
@@ -192,71 +183,65 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildWelcomeSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // App Logo
-        Container(
-          width: 80,
-          height: 80,
-          decoration: BoxDecoration(
-            gradient: AppColors.primaryGradient,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withOpacity(0.3),
-                blurRadius: 20,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-<<<<<<< HEAD
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Image.asset(
-                'images/logo.png',
-                width: 56,
-                height: 56,
-                fit: BoxFit.contain,
-              ),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      // App Logo
+      Container(
+        width: 80,
+        height: 80,
+        decoration: BoxDecoration(
+          gradient: AppColors.primaryGradient,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withOpacity(0.3),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
             ),
-=======
-          child: const Icon(
-            Icons.shopping_basket_rounded,
-            size: 40,
-            color: Colors.white,
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Image.asset(
+              'images/logo.png',
+              width: 56,
+              height: 56,
+              fit: BoxFit.contain,
+            ),
           ),
         ),
+        // Removed the duplicate child: Icon - Container can only have one child
+      ),
 
-        const SizedBox(height: 24),
+      const SizedBox(height: 24),
 
-        // Welcome Text
-        Text(
-          'Welcome Back!',
-          style: GoogleFonts.inter(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
-            height: 1.2,
-          ),
+      // Welcome Text
+      Text(
+        'Welcome Back!',
+        style: GoogleFonts.inter(
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          color: AppColors.textPrimary,
+          height: 1.2,
         ),
+      ),
 
-        const SizedBox(height: 8),
+      const SizedBox(height: 8),
 
-        Text(
-          'Sign in to your account to continue shopping',
-          style: GoogleFonts.inter(
-            fontSize: 16,
-            color: AppColors.textSecondary,
-            height: 1.4,
-          ),
+      Text(
+        'Sign in to your account to continue shopping',
+        style: GoogleFonts.inter(
+          fontSize: 16,
+          color: AppColors.textSecondary,
+          height: 1.4,
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
 
   Widget _buildLoginForm() {
     return Column(
@@ -352,7 +337,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-<<<<<<< HEAD
   Widget _buildOAuthButtons() {
     return Column(
       children: [
@@ -389,8 +373,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   Widget _buildSignUpLink() {
     return Center(
       child: RichText(
@@ -421,8 +403,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249

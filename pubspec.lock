@@ -37,17 +37,26 @@ packages:
     dependency: transitive
     description:
       name: async
-<<<<<<< HEAD
       sha256: "758e6d74e971c3e5aceb4110bfd6698efc7f501675bcfe0c775459a8140750eb"
       url: "https://pub.dev"
     source: hosted
     version: "2.13.0"
-=======
-      sha256: d2872f9c19731c2e5f10444b14686eb7cc85c76274bd6c16e1816bff9a3bab63
+  barcode:
+    dependency: transitive
+    description:
+      name: barcode
+      sha256: "7b6729c37e3b7f34233e2318d866e8c48ddb46c1f7ad01ff7bb2a8de1da2b9f4"
       url: "https://pub.dev"
     source: hosted
-    version: "2.12.0"
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
+    version: "2.2.9"
+  bidi:
+    dependency: transitive
+    description:
+      name: bidi
+      sha256: "77f475165e94b261745cf1032c751e2032b8ed92ccb2bf5716036db79320637d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.13"
   boolean_selector:
     dependency: transitive
     description:
@@ -256,7 +265,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
-<<<<<<< HEAD
   facebook_auth_desktop:
     dependency: transitive
     description:
@@ -265,23 +273,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   fake_async:
     dependency: transitive
     description:
       name: fake_async
-<<<<<<< HEAD
       sha256: "5368f224a74523e8d2e7399ea1638b37aecfca824a3cc4dfdf77bf1fa905ac44"
       url: "https://pub.dev"
     source: hosted
     version: "1.3.3"
-=======
-      sha256: "6a95e56b2449df2273fd8c45a662d6947ce1ebb7aafe80e550a3f68297f3cacc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.2"
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   ffi:
     dependency: transitive
     description:
@@ -359,7 +358,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.1"
-<<<<<<< HEAD
   flutter_facebook_auth:
     dependency: "direct main"
     description:
@@ -384,8 +382,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -410,7 +406,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.29"
-<<<<<<< HEAD
   flutter_secure_storage:
     dependency: transitive
     description:
@@ -459,8 +454,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   flutter_svg:
     dependency: "direct main"
     description:
@@ -535,7 +528,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.3.0"
-<<<<<<< HEAD
   google_identity_services_web:
     dependency: transitive
     description:
@@ -584,8 +576,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.12.4+4"
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   graphs:
     dependency: transitive
     description:
@@ -734,17 +724,10 @@ packages:
     dependency: transitive
     description:
       name: js
-<<<<<<< HEAD
       sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
-=======
-      sha256: "53385261521cc4a0c4658fd0ad07a7d14591cf8fc33abbceae306ddb974888dc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.2"
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   json_annotation:
     dependency: transitive
     description:
@@ -757,17 +740,10 @@ packages:
     dependency: transitive
     description:
       name: leak_tracker
-<<<<<<< HEAD
       sha256: "6bb818ecbdffe216e81182c2f0714a2e62b593f4a4f13098713ff1685dfb6ab0"
       url: "https://pub.dev"
     source: hosted
     version: "10.0.9"
-=======
-      sha256: c35baad643ba394b40aac41080300150a4f08fd0fd6a10378f8f7c6bc161acec
-      url: "https://pub.dev"
-    source: hosted
-    version: "10.0.8"
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   leak_tracker_flutter_testing:
     dependency: transitive
     description:
@@ -936,6 +912,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
+  pdf:
+    dependency: "direct main"
+    description:
+      name: pdf
+      sha256: "28eacad99bffcce2e05bba24e50153890ad0255294f4dd78a17075a2ba5c8416"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.11.3"
+  pdf_widget_wrapper:
+    dependency: transitive
+    description:
+      name: pdf_widget_wrapper
+      sha256: c930860d987213a3d58c7ec3b7ecf8085c3897f773e8dc23da9cae60a5d6d0f5
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   permission_handler:
     dependency: "direct main"
     description:
@@ -1024,6 +1016,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
+  printing:
+    dependency: "direct main"
+    description:
+      name: printing
+      sha256: "482cd5a5196008f984bb43ed0e47cbfdca7373490b62f3b27b3299275bf22a93"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.14.2"
   provider:
     dependency: "direct main"
     description:
@@ -1048,6 +1048,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+  qr:
+    dependency: transitive
+    description:
+      name: qr
+      sha256: "5a1d2586170e172b8a8c8470bbbffd5eb0cd38a66c0d77155ea138d3af3a4445"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   razorpay_flutter:
     dependency: "direct main"
     description:
@@ -1064,6 +1072,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  share_plus:
+    dependency: "direct main"
+    description:
+      name: share_plus
+      sha256: fce43200aa03ea87b91ce4c3ac79f0cecd52e2a7a56c7a4185023c271fbfa6da
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.1.4"
+  share_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: share_plus_platform_interface
+      sha256: cc012a23fc2d479854e6c80150696c4a5f5bb62cb89af4de1c505cf78d0a5d0b
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.2"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -1369,17 +1393,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-<<<<<<< HEAD
       sha256: ddfa8d30d89985b96407efce8acbdd124701f96741f2d981ca860662f1c0dc02
       url: "https://pub.dev"
     source: hosted
     version: "15.0.0"
-=======
-      sha256: "0968250880a6c5fe7edc067ed0a13d4bae1577fe2771dcf3010d52c4a9d3ca14"
-      url: "https://pub.dev"
-    source: hosted
-    version: "14.3.1"
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   watcher:
     dependency: transitive
     description:
@@ -1412,7 +1429,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
-<<<<<<< HEAD
   win32:
     dependency: transitive
     description:
@@ -1421,8 +1437,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.14.0"
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   xdg_directories:
     dependency: transitive
     description:
@@ -1448,9 +1462,5 @@ packages:
     source: hosted
     version: "3.1.3"
 sdks:
-<<<<<<< HEAD
   dart: ">=3.8.0 <4.0.0"
-=======
-  dart: ">=3.7.0 <4.0.0"
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   flutter: ">=3.27.0"

@@ -47,11 +47,7 @@ class GroceryApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-<<<<<<< HEAD
       title: 'Tazaj - Grocery Delivery',
-=======
-      title: 'FreshCart - Grocery Delivery',
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
       debugShowCheckedModeBanner: false,
       theme: _buildTheme(),
       initialRoute: AppRoutes.splash,

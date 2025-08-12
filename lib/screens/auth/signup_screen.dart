@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-<<<<<<< HEAD
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
 import '../../utils/app_colors.dart';
 import '../../utils/app_routes.dart';
 import '../../services/auth_service.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text_field.dart';
-<<<<<<< HEAD
 import '../../models/user_model.dart';
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
 import 'otp_verification_screen.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -31,11 +25,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final _confirmPasswordController = TextEditingController();
 
   bool _isLoading = false;
-<<<<<<< HEAD
   bool _isGoogleLoading = false;
   bool _isFacebookLoading = false;
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _agreeToTerms = false;
@@ -56,56 +47,29 @@ class _SignupScreenState extends State<SignupScreen> {
       return 'Please enter a password';
     }
 
-<<<<<<< HEAD
-=======
-    // Check minimum length
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
     if (value.length < 8) {
       return 'Password must be at least 8 characters long';
     }
 
-<<<<<<< HEAD
-=======
-    // Check for uppercase letter
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
     if (!RegExp(r'[A-Z]').hasMatch(value)) {
       return 'Password must contain at least one uppercase letter';
     }
 
-<<<<<<< HEAD
-=======
-    // Check for lowercase letter
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
     if (!RegExp(r'[a-z]').hasMatch(value)) {
       return 'Password must contain at least one lowercase letter';
     }
 
-<<<<<<< HEAD
-=======
-    // Check for number
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
     if (!RegExp(r'[0-9]').hasMatch(value)) {
       return 'Password must contain at least one number';
     }
 
-<<<<<<< HEAD
-=======
-    // Check for special character
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
     if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
       return 'Password must contain at least one special character';
     }
 
-<<<<<<< HEAD
     return null;
   }
 
-=======
-    return null; // Password is valid
-  }
-
-  // Method to get password strength
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   String _getPasswordStrength(String password) {
     int score = 0;
     
@@ -132,10 +96,6 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
-<<<<<<< HEAD
-=======
-  // Method to get password strength color
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   Color _getPasswordStrengthColor(String password) {
     String strength = _getPasswordStrength(password);
     switch (strength) {
@@ -177,10 +137,6 @@ class _SignupScreenState extends State<SignupScreen> {
       if (result.success) {
         _showSnackBar(result.message, isError: false);
         
-<<<<<<< HEAD
-=======
-        // Navigate to OTP verification screen instead of home
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -200,7 +156,6 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
-<<<<<<< HEAD
   // FIXED GOOGLE SIGN-UP/LOGIN - No parameters needed
   Future<void> _handleGoogleLogin() async {
     setState(() => _isGoogleLoading = true);
@@ -278,8 +233,6 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   void _showSnackBar(String message, {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -287,10 +240,7 @@ class _SignupScreenState extends State<SignupScreen> {
         backgroundColor: isError ? AppColors.error : AppColors.success,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-<<<<<<< HEAD
         duration: Duration(seconds: isError ? 5 : 3),
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
       ),
     );
   }
@@ -312,55 +262,22 @@ class _SignupScreenState extends State<SignupScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-<<<<<<< HEAD
                 _buildHeaderSection(),
                 const SizedBox(height: 32),
                 _buildSignupForm(),
                 const SizedBox(height: 20),
                 _buildTermsCheckbox(),
                 const SizedBox(height: 24),
-=======
-                // Header Section
-                _buildHeaderSection(),
-
-                const SizedBox(height: 32),
-
-                // Signup Form
-                _buildSignupForm(),
-
-                const SizedBox(height: 20),
-
-                // Terms & Conditions
-                _buildTermsCheckbox(),
-
-                const SizedBox(height: 24),
-
-                // Signup Button
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
                 CustomButton(
                   text: 'Create Account',
                   onPressed: _handleSignup,
                   isLoading: _isLoading,
                 ),
-<<<<<<< HEAD
                 const SizedBox(height: 24),
                 _buildDivider(),
                 const SizedBox(height: 24),
                 _buildOAuthButtons(),
                 _buildLoginLink(),
-=======
-
-                const SizedBox(height: 24),
-
-                // Divider
-                _buildDivider(),
-
-                const SizedBox(height: 24),
-
-                // Login Link
-                _buildLoginLink(),
-
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
                 const SizedBox(height: 40),
               ],
             ),
@@ -383,13 +300,7 @@ class _SignupScreenState extends State<SignupScreen> {
             height: 1.2,
           ),
         ),
-<<<<<<< HEAD
         const SizedBox(height: 8),
-=======
-
-        const SizedBox(height: 8),
-
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
         Text(
           'Join us and start your fresh grocery journey',
           style: GoogleFonts.inter(
@@ -405,10 +316,6 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget _buildSignupForm() {
     return Column(
       children: [
-<<<<<<< HEAD
-=======
-        // Name Field
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
         CustomTextField(
           controller: _nameController,
           label: 'Full Name',
@@ -425,14 +332,7 @@ class _SignupScreenState extends State<SignupScreen> {
             return null;
           },
         ),
-<<<<<<< HEAD
         const SizedBox(height: 20),
-=======
-
-        const SizedBox(height: 20),
-
-        // Email Field
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
         CustomTextField(
           controller: _emailController,
           label: 'Email Address',
@@ -449,14 +349,7 @@ class _SignupScreenState extends State<SignupScreen> {
             return null;
           },
         ),
-<<<<<<< HEAD
         const SizedBox(height: 20),
-=======
-
-        const SizedBox(height: 20),
-
-        // Phone Field
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
         CustomTextField(
           controller: _phoneController,
           label: 'Phone Number',
@@ -473,14 +366,7 @@ class _SignupScreenState extends State<SignupScreen> {
             return null;
           },
         ),
-<<<<<<< HEAD
         const SizedBox(height: 20),
-=======
-
-        const SizedBox(height: 20),
-
-        // Password Field with enhanced validation
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -501,18 +387,10 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               validator: _validatePassword,
               onChanged: (value) {
-<<<<<<< HEAD
                 setState(() {});
               },
             ),
             
-=======
-                setState(() {}); // Trigger rebuild to update password strength indicator
-              },
-            ),
-            
-            // Password strength indicator
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
             if (_passwordController.text.isNotEmpty) ...[
               const SizedBox(height: 8),
               Row(
@@ -534,14 +412,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ],
               ),
-<<<<<<< HEAD
               const SizedBox(height: 4),
-=======
-              
-              const SizedBox(height: 4),
-              
-              // Password requirements
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
               Text(
                 'Password must contain:',
                 style: GoogleFonts.inter(
@@ -550,13 +421,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-<<<<<<< HEAD
               const SizedBox(height: 4),
-=======
-              
-              const SizedBox(height: 4),
-              
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
               _buildPasswordRequirement('At least 8 characters', _passwordController.text.length >= 8),
               _buildPasswordRequirement('One uppercase letter', RegExp(r'[A-Z]').hasMatch(_passwordController.text)),
               _buildPasswordRequirement('One lowercase letter', RegExp(r'[a-z]').hasMatch(_passwordController.text)),
@@ -565,14 +430,7 @@ class _SignupScreenState extends State<SignupScreen> {
             ],
           ],
         ),
-<<<<<<< HEAD
         const SizedBox(height: 20),
-=======
-
-        const SizedBox(height: 20),
-
-        // Confirm Password Field
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
         CustomTextField(
           controller: _confirmPasswordController,
           label: 'Confirm Password',
@@ -602,10 +460,6 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-<<<<<<< HEAD
-=======
-  // Helper widget to build password requirement indicators
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   Widget _buildPasswordRequirement(String requirement, bool isMet) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 2),
@@ -643,10 +497,6 @@ class _SignupScreenState extends State<SignupScreen> {
             borderRadius: BorderRadius.circular(4),
           ),
         ),
-<<<<<<< HEAD
-=======
-
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(top: 12),
@@ -710,7 +560,6 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-<<<<<<< HEAD
   Widget _buildOAuthButtons() {
     return Column(
       children: [
@@ -759,8 +608,6 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-=======
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
   Widget _buildLoginLink() {
     return Center(
       child: RichText(
@@ -791,8 +638,4 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
     );
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249

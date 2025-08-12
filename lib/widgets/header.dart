@@ -91,20 +91,14 @@ class _HeaderState extends State<Header> {
   }
 
   Widget _buildTitle(bool isDesktop, bool isTablet, bool isMobile) {
-<<<<<<< HEAD
     // Responsive logo and text sizes
     double logoSize = isDesktop ? 36 : (isTablet ? 32 : 28);
-=======
-    // Responsive icon and text sizes
-    double iconSize = isDesktop ? 36 : (isTablet ? 32 : 28);
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
     double fontSize = isDesktop ? 32 : (isTablet ? 28 : 24);
     double spacing = isDesktop ? 12 : (isTablet ? 10 : 8);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-<<<<<<< HEAD
         // Logo Image
         Image.asset(
           'images/logo.png',
@@ -119,13 +113,6 @@ class _HeaderState extends State<Header> {
         Flexible(
           child: Text(
             'Tazaj',
-=======
-        Icon(Icons.spa, color: Colors.white, size: iconSize),
-        SizedBox(width: spacing),
-        Flexible(
-          child: Text(
-            'FreshCart',
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -361,8 +348,4 @@ class _HeaderState extends State<Header> {
       ],
     );
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> be825a70c5afb5e83a7c90247b4e5c684e899249
