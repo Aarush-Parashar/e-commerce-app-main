@@ -18,13 +18,22 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   UserModel? _currentUser;
   int _cartItemCount = 0;
+  bool _isLoggedIn = false;
   final GlobalKey<ProductsSectionState> _productsKey = GlobalKey<ProductsSectionState>();
 
   @override
   void initState() {
     super.initState();
-    _loadUser();
-    _loadCartCount();
+    _checkAuthStatus();
+  }
+
+  Future<void> _checkAuthStatus() async {
+    _isLoggedIn = await AuthService.isLoggedIn();
+    if (_isLoggedIn) {
+      await _loadUser();
+      await _loadCartCount();
+    }
+    if (mounted) setState(() {});
   }
 
   Future<void> _loadUser() async {
@@ -33,8 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadCartCount() async {
-    _cartItemCount = await CartService.getCartItemCount();
-    if (mounted) setState(() {});
+    if (_isLoggedIn) {
+      _cartItemCount = await CartService.getCartItemCount();
+      if (mounted) setState(() {});
+    }
   }
 
   // Refresh method that will be called when user pulls to refresh
@@ -64,12 +75,16 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       }
 
-      // Refresh all data concurrently
-      await Future.wait([
-        _loadUser(),
-        _loadCartCount(),
-        _refreshProducts(),
-      ]);
+      // Check auth status first
+      await _checkAuthStatus();
+      
+      // Refresh all data concurrently if logged in
+      List<Future> futures = [_refreshProducts()];
+      if (_isLoggedIn) {
+        futures.addAll([_loadUser(), _loadCartCount()]);
+      }
+      
+      await Future.wait(futures);
 
       // Show success message
       if (mounted) {
@@ -116,15 +131,55 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Add this method to refresh cart count when returning from other screens
   void _refreshCartCount() {
-    _loadCartCount();
+    if (_isLoggedIn) {
+      _loadCartCount();
+    }
   }
 
   void _handleSellerNavigation() {
+    if (!_isLoggedIn) {
+      Navigator.pushNamed(context, '/login');
+      return;
+    }
+    
     if (_currentUser?.userType == UserType.seller) {
       Navigator.pushNamed(context, '/seller-dashboard');
     } else {
       Navigator.pushNamed(context, '/become-seller');
     }
+  }
+
+  void _handleCartNavigation() {
+    if (!_isLoggedIn) {
+      Navigator.pushNamed(context, '/login');
+      return;
+    }
+    
+    Navigator.pushNamed(context, '/cart').then((_) {
+      // Refresh cart count when returning from cart
+      _refreshCartCount();
+    });
+  }
+
+  void _handleProfileNavigation() {
+    if (!_isLoggedIn) {
+      Navigator.pushNamed(context, '/login');
+      return;
+    }
+    
+    Navigator.pushNamed(context, '/profile').then((_) {
+      // Refresh user data when returning from profile
+      _loadUser();
+    });
+  }
+
+  void _handleSearchNavigation() {
+    if (!_isLoggedIn) {
+      Navigator.pushNamed(context, '/login');
+      return;
+    }
+    
+    Navigator.pushNamed(context, '/search');
   }
 
   @override
@@ -134,21 +189,17 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: Header(
         cartItemCount: _cartItemCount,
         currentUser: _currentUser,
-        onCartTap: () async {
-          await Navigator.pushNamed(context, '/cart');
-          // Refresh cart count when returning from cart
-          _refreshCartCount();
-        },
-        onProfileTap: () async {
-          await Navigator.pushNamed(context, '/profile');
-          // Refresh user data when returning from profile
-          _loadUser();
-        },
+        isLoggedIn: _isLoggedIn,
+        onCartTap: _handleCartNavigation,
+        onProfileTap: _handleProfileNavigation,
         onSellerTap: _handleSellerNavigation,
+        onSearchTap: _handleSearchNavigation,
         onLogout: () async {
-          await AuthService.logout();
-          if (mounted) {
-            Navigator.pushReplacementNamed(context, '/login');
+          if (_isLoggedIn) {
+            await AuthService.logout();
+            if (mounted) {
+              Navigator.pushReplacementNamed(context, '/login');
+            }
           }
         },
       ),
@@ -169,6 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ProductsSection(
                 key: _productsKey,
                 refreshCartCount: _refreshCartCount,
+                isGuestMode: !_isLoggedIn,
               ),
               const SizedBox(height: 24),
               // Add some extra space at the bottom to ensure smooth scrolling
@@ -179,13 +231,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: Footer(
         currentUser: _currentUser,
+        isLoggedIn: _isLoggedIn,
         currentIndex: 0,
         onHomeTap: () {},
-        onSearchTap: () => Navigator.pushNamed(context, '/search'),
-        onCartTap: () async {
-          await Navigator.pushNamed(context, '/cart');
-          _refreshCartCount();
-        },
+        onSearchTap: _handleSearchNavigation,
+        onCartTap: _handleCartNavigation,
         onSellerTap: _handleSellerNavigation,
       ),
     );

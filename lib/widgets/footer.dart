@@ -3,6 +3,7 @@ import '/models/user_model.dart';
 
 class Footer extends StatelessWidget {
   final UserModel? currentUser;
+  final bool isLoggedIn;
   final VoidCallback onHomeTap;
   final VoidCallback onSearchTap;
   final VoidCallback onCartTap;
@@ -13,6 +14,7 @@ class Footer extends StatelessWidget {
   const Footer({
     Key? key,
     this.currentUser,
+    this.isLoggedIn = false,
     required this.onHomeTap,
     required this.onSearchTap,
     required this.onCartTap,
@@ -20,6 +22,10 @@ class Footer extends StatelessWidget {
     this.onAdminTap, // New: admin tap
     this.currentIndex = 0,
   }) : super(key: key);
+
+  void _handleLoginRedirect(BuildContext context) {
+    Navigator.pushNamed(context, '/login');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,23 +59,39 @@ class Footer extends StatelessWidget {
                     isActive: currentIndex == 0,
                     iconSize: iconSize,
                     onTap: onHomeTap,
+                    context: context,
                   ),
                   _buildFooterItem(
                     icon: Icons.search,
                     label: 'Search',
                     isActive: currentIndex == 1,
                     iconSize: iconSize,
-                    onTap: onSearchTap,
+                    onTap: isLoggedIn ? onSearchTap : () => _handleLoginRedirect(context),
+                    context: context,
+                    requiresLogin: true,
                   ),
                   _buildFooterItem(
                     icon: Icons.shopping_cart,
                     label: 'Cart',
                     isActive: currentIndex == 2,
                     iconSize: iconSize,
-                    onTap: onCartTap,
+                    onTap: isLoggedIn ? onCartTap : () => _handleLoginRedirect(context),
+                    context: context,
+                    requiresLogin: true,
                   ),
+                  // Show Login button if not logged in
+                  if (!isLoggedIn)
+                    _buildFooterItem(
+                      icon: Icons.login,
+                      label: 'Login',
+                      isActive: false,
+                      iconSize: iconSize,
+                      onTap: () => _handleLoginRedirect(context),
+                      context: context,
+                      highlight: true,
+                    )
                   // Show Admin if userType is admin
-                  if (currentUser?.userType == UserType.admin)
+                  else if (currentUser?.userType == UserType.admin)
                     _buildFooterItem(
                       icon: Icons.admin_panel_settings,
                       label: 'Admin',
@@ -79,9 +101,10 @@ class Footer extends StatelessWidget {
                           () {
                             Navigator.of(context).pushNamed('/admin');
                           },
+                      context: context,
                       highlight: true,
                     )
-                  // Otherwise show Seller (only if not admin)
+                  // Otherwise show Seller (only if not admin and logged in)
                   else
                     _buildFooterItem(
                       icon: Icons.storefront,
@@ -91,6 +114,7 @@ class Footer extends StatelessWidget {
                       isActive: currentIndex == 3,
                       iconSize: iconSize,
                       onTap: onSellerTap,
+                      context: context,
                       highlight: currentUser?.userType == UserType.seller,
                     ),
                 ],
@@ -106,8 +130,10 @@ class Footer extends StatelessWidget {
     required IconData icon,
     required String label,
     required VoidCallback onTap,
+    required BuildContext context,
     bool isActive = false,
     bool highlight = false,
+    bool requiresLogin = false,
     double iconSize = 24.0,
   }) {
     return GestureDetector(
@@ -123,11 +149,33 @@ class Footer extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              color:
-                  isActive || highlight ? Colors.green.shade700 : Colors.grey.shade600,
-              size: iconSize,
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Icon(
+                  icon,
+                  color: isActive || highlight 
+                      ? Colors.green.shade700 
+                      : (requiresLogin && !isLoggedIn)
+                          ? Colors.grey.shade400
+                          : Colors.grey.shade600,
+                  size: iconSize,
+                ),
+                if (requiresLogin && !isLoggedIn)
+                  Positioned(
+                    right: -2,
+                    top: -2,
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade600,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 1),
+                      ),
+                    ),
+                  ),
+              ],
             ),
             const SizedBox(height: 4),
             Text(
@@ -136,7 +184,9 @@ class Footer extends StatelessWidget {
                 fontSize: 13,
                 color: isActive || highlight
                     ? Colors.green.shade700
-                    : Colors.grey.shade600,
+                    : (requiresLogin && !isLoggedIn)
+                        ? Colors.grey.shade400
+                        : Colors.grey.shade600,
                 fontWeight: isActive || highlight
                     ? FontWeight.bold
                     : FontWeight.normal,

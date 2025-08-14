@@ -83,18 +83,20 @@ dev_dependencies:
   flutter_lints: ^2.0.3
   hive_generator: ^1.1.3
   build_runner: ^2.4.6
-  flutter_launcher_icons: ^0.13.1  # Added for app icon generation
-
+  flutter_launcher_icons: ^0.13.1 
 flutter:
   uses-material-design: true
 
   # Assets
   assets:
     - images/App_logo.jpg
-    - images/AppLogo.jpg
     - images/logo.png
     - images/google.png
     - images/facebook.jpeg
+    - assets/animations/apple.json
+    - assets/animations/delivery.json
+    - assets/animations/pineapple.json
+    - assets/images/
 
 # App icon config
 flutter_launcher_icons:

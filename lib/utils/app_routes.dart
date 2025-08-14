@@ -6,6 +6,7 @@ class AppRoutes {
   static const String resetPassword = '/reset_password';
   static const String verifyOtp = '/verify-otp';
   static const String payment = '/payment';
+  static const String guestHome = '/guestHome';
 
   // Main App Routes
   static const String home = '/home';

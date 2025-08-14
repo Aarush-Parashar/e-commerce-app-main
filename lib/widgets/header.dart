@@ -6,18 +6,22 @@ import '/services/cart_service.dart';
 class Header extends StatefulWidget implements PreferredSizeWidget {
   final int cartItemCount;
   final UserModel? currentUser;
+  final bool isLoggedIn;
   final VoidCallback onCartTap;
   final VoidCallback onProfileTap;
   final VoidCallback onSellerTap;
+  final VoidCallback? onSearchTap; // Made optional
   final VoidCallback onLogout;
 
   const Header({
     Key? key,
     required this.cartItemCount,
     this.currentUser,
+    this.isLoggedIn = false,
     required this.onCartTap,
     required this.onProfileTap,
     required this.onSellerTap,
+    this.onSearchTap, // Made optional
     required this.onLogout,
   }) : super(key: key);
 
@@ -35,20 +39,22 @@ class _HeaderState extends State<Header> {
   @override
   void initState() {
     super.initState();
-    _loadRealTimeCartCount();
+    if (widget.isLoggedIn) {
+      _loadRealTimeCartCount();
+    }
   }
 
   @override
   void didUpdateWidget(Header oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Update real-time count when widget updates
-    if (oldWidget.cartItemCount != widget.cartItemCount) {
+    if (widget.isLoggedIn && oldWidget.cartItemCount != widget.cartItemCount) {
       _loadRealTimeCartCount();
     }
   }
 
   Future<void> _loadRealTimeCartCount() async {
-    if (_isLoadingCart) return;
+    if (_isLoadingCart || !widget.isLoggedIn) return;
     
     setState(() {
       _isLoadingCart = true;
@@ -73,6 +79,15 @@ class _HeaderState extends State<Header> {
     }
   }
 
+  void _handleSearchTap() {
+    if (widget.onSearchTap != null) {
+      widget.onSearchTap!();
+    } else {
+      // Default behavior: navigate to search screen
+      Navigator.pushNamed(context, '/search');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -83,7 +98,7 @@ class _HeaderState extends State<Header> {
     return AppBar(
       backgroundColor: Colors.green.shade700,
       elevation: 0,
-      automaticallyImplyLeading: isMobile, // Show hamburger menu only on mobile
+      automaticallyImplyLeading: isMobile && widget.isLoggedIn, // Show hamburger menu only on mobile when logged in
       title: _buildTitle(isDesktop, isTablet, isMobile),
       actions: _buildActions(isDesktop, isTablet, isMobile, context),
       centerTitle: false, // Center title on mobile
@@ -129,6 +144,34 @@ class _HeaderState extends State<Header> {
   List<Widget> _buildActions(bool isDesktop, bool isTablet, bool isMobile, BuildContext context) {
     List<Widget> actions = [];
 
+    if (!widget.isLoggedIn) {
+      // When not logged in, show only login button
+      actions.add(
+        Padding(
+          padding: const EdgeInsets.only(right: 16.0),
+          child: TextButton.icon(
+            onPressed: () => Navigator.pushNamed(context, '/login'),
+            icon: const Icon(Icons.login, color: Colors.white, size: 20),
+            label: const Text(
+              'Login',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.green.shade800,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+        ),
+      );
+      return actions;
+    }
+
     if (isDesktop) {
       // Desktop: Show all actions in the app bar
       actions.addAll([
@@ -166,14 +209,14 @@ class _HeaderState extends State<Header> {
     return IconButton(
       icon: const Icon(Icons.search),
       color: Colors.white,
-      onPressed: () => Navigator.pushNamed(context, '/search'),
+      onPressed: _handleSearchTap,
       tooltip: 'Search',
     );
   }
 
   Widget _buildCartButton() {
     // Use real-time count if available, otherwise fallback to passed count
-    final displayCount = _realTimeCartCount > 0 ? _realTimeCartCount : widget.cartItemCount;
+    final displayCount = widget.isLoggedIn ? (_realTimeCartCount > 0 ? _realTimeCartCount : widget.cartItemCount) : 0;
     
     return Stack(
       alignment: Alignment.center,
@@ -184,12 +227,14 @@ class _HeaderState extends State<Header> {
           onPressed: () {
             widget.onCartTap();
             // Refresh cart count when cart is accessed
-            _loadRealTimeCartCount();
+            if (widget.isLoggedIn) {
+              _loadRealTimeCartCount();
+            }
           },
           tooltip: 'Cart',
           iconSize: 28,
         ),
-        if (displayCount > 0)
+        if (displayCount > 0 && widget.isLoggedIn)
           Positioned(
             right: 8,
             top: 8,
@@ -291,7 +336,7 @@ class _HeaderState extends State<Header> {
       onSelected: (value) async {
         switch (value) {
           case 0:
-            Navigator.pushNamed(context, '/search');
+            _handleSearchTap();
             break;
           case 1:
             widget.onProfileTap();

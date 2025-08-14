@@ -162,8 +162,9 @@ class GroceryApp extends StatelessWidget {
   Route<dynamic>? _generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRoutes.splash:
-        return _createRoute(const SplashScreen());
+        return _createRoute(const OnboardingScreen());
 
+     
       case AppRoutes.login:
         return _createRoute(const LoginScreen());
 
