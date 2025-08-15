@@ -7,54 +7,27 @@ class CategorySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> categories = [
-      {'name': 'Fruits', 'icon': Icons.apple, 'color': Colors.red.shade400},
-      {'name': 'Vegetables', 'icon': Icons.eco, 'color': Colors.green.shade400},
-      {'name': 'Dairy', 'icon': Icons.local_drink, 'color': Colors.blue.shade400},
-      {'name': 'Grains & Cereals', 'icon': Icons.grain, 'color': Colors.amber.shade400},
-      {'name': 'Pulses & Legumes', 'icon': Icons.circle, 'color': Colors.brown.shade400},
-      {'name': 'Spices & Herbs', 'icon': Icons.local_florist, 'color': Colors.green.shade600},
-      {'name': 'Cooking Oils', 'icon': Icons.opacity, 'color': Colors.yellow.shade600},
-      {'name': 'Beverages', 'icon': Icons.local_cafe, 'color': Colors.orange.shade400},
-      {'name': 'Snacks & Processed', 'icon': Icons.cookie, 'color': Colors.purple.shade400},
-      {'name': 'Condiments & Sauces', 'icon': Icons.restaurant, 'color': Colors.red.shade600},
-      {'name': 'Seafood & Meat', 'icon': Icons.set_meal, 'color': Colors.pink.shade400},
-      {'name': 'Bakery', 'icon': Icons.cake, 'color': Colors.orange.shade400},
-      {'name': 'Frozen Foods', 'icon': Icons.ac_unit, 'color': Colors.cyan.shade400},
-      {'name': 'Household Items', 'icon': Icons.home, 'color': Colors.grey.shade600},
+      {'name': 'All', 'image': 'assets/images/all.png', 'color': Colors.purple.shade400},
+      {'name': 'Banana', 'image': 'assets/images/banana.png', 'color': Colors.yellow.shade400},
+      {'name': 'Apple', 'image': 'assets/images/apple.png', 'color': Colors.red.shade400},
+      {'name': 'Orange', 'image': 'assets/images/orange.png', 'color': Colors.orange.shade400},
+      {'name': 'Grapes', 'image': 'assets/images/grapes.png', 'color': Colors.purple.shade300},
+      {'name': 'Strawberry', 'image': 'assets/images/strawberry.png', 'color': Colors.pink.shade400},
+      {'name': 'Mango', 'image': 'assets/images/mango.png', 'color': Colors.orange.shade300},
+      {'name': 'Pineapple', 'image': 'assets/images/pineapple.png', 'color': Colors.yellow.shade600},
+      {'name': 'Vegetables', 'image': 'assets/images/vegetables.png', 'color': Colors.green.shade400},
+      {'name': 'Dairy', 'image': 'assets/images/dairy.png', 'color': Colors.blue.shade400},
+      {'name': 'Grains', 'image': 'assets/images/grains.png', 'color': Colors.amber.shade400},
+      {'name': 'Pulses', 'image': 'assets/images/pulses.png', 'color': Colors.brown.shade400},
+      {'name': 'Spices', 'image': 'assets/images/spices.png', 'color': Colors.green.shade600},
+      {'name': 'Beverages', 'image': 'assets/images/beverages.png', 'color': Colors.orange.shade400},
     ];
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.fromLTRB(16, 20, 16, 0), // Added top margin of 20
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  'Categories',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade800,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pushNamed(context, AppRoutes.search),
-                child: Text(
-                  'View All',
-                  style: TextStyle(
-                    color: Colors.green.shade700,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
           SizedBox(
             height: 110,
             child: ListView.builder(
@@ -88,10 +61,23 @@ class CategorySection extends StatelessWidget {
                               width: 1,
                             ),
                           ),
-                          child: Icon(
-                            category['icon'] as IconData,
-                            size: 30,
-                            color: category['color'] as Color,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset(
+                                category['image'] as String,
+                                fit: BoxFit.contain,
+                                errorBuilder: (context, error, stackTrace) {
+                                  // Fallback to icon if image fails to load
+                                  return Icon(
+                                    Icons.image_not_supported,
+                                    size: 30,
+                                    color: category['color'] as Color,
+                                  );
+                                },
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 8),

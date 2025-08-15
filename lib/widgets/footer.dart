@@ -5,10 +5,9 @@ class Footer extends StatelessWidget {
   final UserModel? currentUser;
   final bool isLoggedIn;
   final VoidCallback onHomeTap;
-  final VoidCallback onSearchTap;
-  final VoidCallback onCartTap;
-  final VoidCallback onSellerTap;
-  final VoidCallback? onAdminTap; // New: callback for admin tap
+  final VoidCallback onCategoriesTap;
+  final VoidCallback onDiscountTap;
+  final VoidCallback onProfileTap;
   final int currentIndex;
 
   const Footer({
@@ -16,10 +15,9 @@ class Footer extends StatelessWidget {
     this.currentUser,
     this.isLoggedIn = false,
     required this.onHomeTap,
-    required this.onSearchTap,
-    required this.onCartTap,
-    required this.onSellerTap,
-    this.onAdminTap, // New: admin tap
+    required this.onCategoriesTap,
+    required this.onDiscountTap,
+    required this.onProfileTap,
     this.currentIndex = 0,
   }) : super(key: key);
 
@@ -53,70 +51,43 @@ class Footer extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
+                  // 1. Home
                   _buildFooterItem(
-                    icon: Icons.home,
+                    imagePath: 'assets/images/ico_home.png',
                     label: 'Home',
                     isActive: currentIndex == 0,
                     iconSize: iconSize,
                     onTap: onHomeTap,
                     context: context,
                   ),
+                  // 2. Categories
                   _buildFooterItem(
-                    icon: Icons.search,
-                    label: 'Search',
+                    imagePath: 'assets/images/ico_category.png',
+                    label: 'Categories',
                     isActive: currentIndex == 1,
                     iconSize: iconSize,
-                    onTap: isLoggedIn ? onSearchTap : () => _handleLoginRedirect(context),
+                    onTap: onCategoriesTap,
                     context: context,
-                    requiresLogin: true,
                   ),
+                  // 3. Discount
                   _buildFooterItem(
-                    icon: Icons.shopping_cart,
-                    label: 'Cart',
+                    imagePath: 'assets/images/ico_discount.png',
+                    label: 'Discount',
                     isActive: currentIndex == 2,
                     iconSize: iconSize,
-                    onTap: isLoggedIn ? onCartTap : () => _handleLoginRedirect(context),
+                    onTap: onDiscountTap,
                     context: context,
-                    requiresLogin: true,
                   ),
-                  // Show Login button if not logged in
-                  if (!isLoggedIn)
-                    _buildFooterItem(
-                      icon: Icons.login,
-                      label: 'Login',
-                      isActive: false,
-                      iconSize: iconSize,
-                      onTap: () => _handleLoginRedirect(context),
-                      context: context,
-                      highlight: true,
-                    )
-                  // Show Admin if userType is admin
-                  else if (currentUser?.userType == UserType.admin)
-                    _buildFooterItem(
-                      icon: Icons.admin_panel_settings,
-                      label: 'Admin',
-                      isActive: currentIndex == 3,
-                      iconSize: iconSize,
-                      onTap: onAdminTap ??
-                          () {
-                            Navigator.of(context).pushNamed('/admin');
-                          },
-                      context: context,
-                      highlight: true,
-                    )
-                  // Otherwise show Seller (only if not admin and logged in)
-                  else
-                    _buildFooterItem(
-                      icon: Icons.storefront,
-                      label: currentUser?.userType == UserType.seller
-                          ? 'Dashboard'
-                          : 'Seller',
-                      isActive: currentIndex == 3,
-                      iconSize: iconSize,
-                      onTap: onSellerTap,
-                      context: context,
-                      highlight: currentUser?.userType == UserType.seller,
-                    ),
+                  // 4. Profile
+                  _buildFooterItem(
+                    imagePath: 'assets/images/ico_user.png',
+                    label: isLoggedIn ? 'Profile' : 'Login',
+                    isActive: currentIndex == 3,
+                    iconSize: iconSize,
+                    onTap: isLoggedIn ? onProfileTap : () => _handleLoginRedirect(context),
+                    context: context,
+                    requiresLogin: !isLoggedIn,
+                  ),
                 ],
               ),
             );
@@ -127,7 +98,7 @@ class Footer extends StatelessWidget {
   }
 
   Widget _buildFooterItem({
-    required IconData icon,
+    required String imagePath,
     required String label,
     required VoidCallback onTap,
     required BuildContext context,
@@ -152,16 +123,17 @@ class Footer extends StatelessWidget {
             Stack(
               alignment: Alignment.center,
               children: [
-                Icon(
-                  icon,
+                Image.asset(
+                  imagePath,
+                  width: iconSize,
+                  height: iconSize,
                   color: isActive || highlight 
                       ? Colors.green.shade700 
-                      : (requiresLogin && !isLoggedIn)
+                      : (requiresLogin)
                           ? Colors.grey.shade400
                           : Colors.grey.shade600,
-                  size: iconSize,
                 ),
-                if (requiresLogin && !isLoggedIn)
+                if (requiresLogin)
                   Positioned(
                     right: -2,
                     top: -2,
@@ -184,7 +156,7 @@ class Footer extends StatelessWidget {
                 fontSize: 13,
                 color: isActive || highlight
                     ? Colors.green.shade700
-                    : (requiresLogin && !isLoggedIn)
+                    : (requiresLogin)
                         ? Colors.grey.shade400
                         : Colors.grey.shade600,
                 fontWeight: isActive || highlight

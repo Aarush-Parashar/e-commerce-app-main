@@ -182,6 +182,29 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.pushNamed(context, '/search');
   }
 
+  void _handleCategoriesNavigation() {
+    // Navigate to categories page or scroll to categories section
+    // For now, we can scroll to the top where categories are located
+    // Or navigate to a dedicated categories page if you have one
+    if (!_isLoggedIn) {
+      Navigator.pushNamed(context, '/login');
+      return;
+    }
+    
+    Navigator.pushNamed(context, '/categories');
+  }
+
+  void _handleDiscountNavigation() {
+    // Navigate to discount/offers page
+    // You can customize this based on your needs
+    if (!_isLoggedIn) {
+      Navigator.pushNamed(context, '/login');
+      return;
+    }
+    
+    Navigator.pushNamed(context, '/offers'); // or '/discounts'
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -213,17 +236,16 @@ class _HomeScreenState extends State<HomeScreen> {
           physics: const AlwaysScrollableScrollPhysics(), // This ensures pull-to-refresh works even when content doesn't fill the screen
           child: Column(
             children: [
-              const HeroSection(),
+              const CategorySection(),        // Move this first
               const SizedBox(height: 24),
-              const CategorySection(),
+              const HeroSection(),           // Move this second  
               const SizedBox(height: 24),
-              ProductsSection(
+              ProductsSection(               // Keep this third
                 key: _productsKey,
                 refreshCartCount: _refreshCartCount,
                 isGuestMode: !_isLoggedIn,
               ),
               const SizedBox(height: 24),
-              // Add some extra space at the bottom to ensure smooth scrolling
               const SizedBox(height: 50),
             ],
           ),
@@ -234,9 +256,9 @@ class _HomeScreenState extends State<HomeScreen> {
         isLoggedIn: _isLoggedIn,
         currentIndex: 0,
         onHomeTap: () {},
-        onSearchTap: _handleSearchNavigation,
-        onCartTap: _handleCartNavigation,
-        onSellerTap: _handleSellerNavigation,
+        onCategoriesTap: _handleCategoriesNavigation,
+        onDiscountTap: _handleDiscountNavigation,
+        onProfileTap: _handleProfileNavigation,
       ),
     );
   }

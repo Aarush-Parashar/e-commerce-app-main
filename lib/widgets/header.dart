@@ -79,15 +79,6 @@ class _HeaderState extends State<Header> {
     }
   }
 
-  void _handleSearchTap() {
-    if (widget.onSearchTap != null) {
-      widget.onSearchTap!();
-    } else {
-      // Default behavior: navigate to search screen
-      Navigator.pushNamed(context, '/search');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -96,48 +87,44 @@ class _HeaderState extends State<Header> {
     final isMobile = screenWidth < 768;
 
     return AppBar(
-      backgroundColor: Colors.green.shade700,
-      elevation: 0,
-      automaticallyImplyLeading: isMobile && widget.isLoggedIn, // Show hamburger menu only on mobile when logged in
+      backgroundColor: Colors.white, // Changed to white background
+      elevation: 2, // Added slight elevation for better visibility
+      automaticallyImplyLeading: false, // Remove hamburger menu
       title: _buildTitle(isDesktop, isTablet, isMobile),
       actions: _buildActions(isDesktop, isTablet, isMobile, context),
-      centerTitle: false, // Center title on mobile
+      centerTitle: true, // Center the title
+      leading: _buildLeadingLogo(isDesktop, isTablet, isMobile), // Logo on the left
+    );
+  }
+
+  // New method to build leading logo
+  Widget _buildLeadingLogo(bool isDesktop, bool isTablet, bool isMobile) {
+    double logoSize = isDesktop ? 32 : (isTablet ? 28 : 24);
+    
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Image.asset(
+        'images/logo.png',
+        width: logoSize,
+        height: logoSize,
+        fit: BoxFit.contain,
+      ),
     );
   }
 
   Widget _buildTitle(bool isDesktop, bool isTablet, bool isMobile) {
-    // Responsive logo and text sizes
-    double logoSize = isDesktop ? 36 : (isTablet ? 32 : 28);
-    double fontSize = isDesktop ? 32 : (isTablet ? 28 : 24);
-    double spacing = isDesktop ? 12 : (isTablet ? 10 : 8);
+    // Smaller responsive font sizes
+    double fontSize = isDesktop ? 20 : (isTablet ? 18 : 16);
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Logo Image
-        Image.asset(
-          'images/logo.png',
-          width: logoSize,
-          height: logoSize,
-          fit: BoxFit.contain,
-          // Optional: Add color filter to make logo white if needed
-          // color: Colors.white,
-          // colorBlendMode: BlendMode.srcIn,
-        ),
-        SizedBox(width: spacing),
-        Flexible(
-          child: Text(
-            'Tazaj',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: fontSize,
-              letterSpacing: isMobile ? 0.8 : 1.2,
-            ),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
+    return Text(
+      'Fruits and Vegetables',
+      style: TextStyle(
+        color: Colors.green.shade700, // Changed text color to green for contrast
+        fontWeight: FontWeight.w600, // Slightly less bold
+        fontSize: fontSize, // Smaller font size
+        letterSpacing: 0.5,
+      ),
+      textAlign: TextAlign.center,
     );
   }
 
@@ -151,19 +138,20 @@ class _HeaderState extends State<Header> {
           padding: const EdgeInsets.only(right: 16.0),
           child: TextButton.icon(
             onPressed: () => Navigator.pushNamed(context, '/login'),
-            icon: const Icon(Icons.login, color: Colors.white, size: 20),
-            label: const Text(
+            icon: Icon(Icons.login, color: Colors.green.shade700, size: 20), // Changed icon color
+            label: Text(
               'Login',
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.green.shade700, // Changed text color
                 fontWeight: FontWeight.w600,
               ),
             ),
             style: TextButton.styleFrom(
-              backgroundColor: Colors.green.shade800,
+              backgroundColor: Colors.green.shade50, // Light green background
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
+                side: BorderSide(color: Colors.green.shade300), // Added border
               ),
             ),
           ),
@@ -172,46 +160,16 @@ class _HeaderState extends State<Header> {
       return actions;
     }
 
-    if (isDesktop) {
-      // Desktop: Show all actions in the app bar
-      actions.addAll([
-        _buildSearchButton(context),
-        const SizedBox(width: 8),
-        _buildCartButton(),
-        const SizedBox(width: 8),
-        _buildProfileMenu(context),
-        const SizedBox(width: 16),
-      ]);
-    } else if (isTablet) {
-      // Tablet: Show essential actions, group some in menu
-      actions.addAll([
-        _buildSearchButton(context),
-        const SizedBox(width: 4),
-        _buildCartButton(),
-        const SizedBox(width: 4),
-        _buildProfileMenu(context),
-        const SizedBox(width: 8),
-      ]);
-    } else {
-      // Mobile: Minimal actions, most in drawer/menu
-      actions.addAll([
-        _buildCartButton(),
-        const SizedBox(width: 4),
-        _buildMobileMenu(context),
-        const SizedBox(width: 8),
-      ]);
-    }
+    // Right side - Cart and Profile icons with proper spacing
+    actions.addAll([
+      const SizedBox(width: 8), // Added space before icons
+      _buildCartButton(),
+      const SizedBox(width: 12), // Space between cart and profile
+      _buildProfileButton(context),
+      const SizedBox(width: 16), // Space after profile
+    ]);
 
     return actions;
-  }
-
-  Widget _buildSearchButton(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.search),
-      color: Colors.white,
-      onPressed: _handleSearchTap,
-      tooltip: 'Search',
-    );
   }
 
   Widget _buildCartButton() {
@@ -223,7 +181,7 @@ class _HeaderState extends State<Header> {
       children: [
         IconButton(
           icon: const Icon(Icons.shopping_cart),
-          color: Colors.white,
+          color: Colors.green.shade700, // Changed icon color for contrast
           onPressed: () {
             widget.onCartTap();
             // Refresh cart count when cart is accessed
@@ -273,124 +231,12 @@ class _HeaderState extends State<Header> {
     );
   }
 
-  Widget _buildProfileMenu(BuildContext context) {
-    return PopupMenuButton<int>(
-      icon: const Icon(Icons.person, color: Colors.white),
-      color: Colors.white,
-      elevation: 8,
-      onSelected: (value) async {
-        switch (value) {
-          case 0:
-            widget.onProfileTap();
-            break;
-          case 1:
-            widget.onSellerTap();
-            break;
-          case 2:
-            widget.onLogout();
-            break;
-        }
-      },
-      itemBuilder: (context) => [
-        const PopupMenuItem<int>(
-          value: 0,
-          child: ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text('Profile'),
-            dense: true,
-          ),
-        ),
-        PopupMenuItem<int>(
-          value: 1,
-          child: ListTile(
-            leading: Icon(
-              widget.currentUser?.userType == UserType.seller
-                  ? Icons.dashboard
-                  : Icons.store,
-            ),
-            title: Text(
-              widget.currentUser?.userType == UserType.seller
-                  ? 'Seller Dashboard'
-                  : 'Become a Seller',
-            ),
-            dense: true,
-          ),
-        ),
-        const PopupMenuItem<int>(
-          value: 2,
-          child: ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Logout'),
-            dense: true,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMobileMenu(BuildContext context) {
-    return PopupMenuButton<int>(
-      icon: const Icon(Icons.more_vert, color: Colors.white),
-      color: Colors.white,
-      elevation: 8,
-      onSelected: (value) async {
-        switch (value) {
-          case 0:
-            _handleSearchTap();
-            break;
-          case 1:
-            widget.onProfileTap();
-            break;
-          case 2:
-            widget.onSellerTap();
-            break;
-          case 3:
-            widget.onLogout();
-            break;
-        }
-      },
-      itemBuilder: (context) => [
-        const PopupMenuItem<int>(
-          value: 0,
-          child: ListTile(
-            leading: Icon(Icons.search),
-            title: Text('Search'),
-            dense: true,
-          ),
-        ),
-        const PopupMenuItem<int>(
-          value: 1,
-          child: ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text('Profile'),
-            dense: true,
-          ),
-        ),
-        PopupMenuItem<int>(
-          value: 2,
-          child: ListTile(
-            leading: Icon(
-              widget.currentUser?.userType == UserType.seller
-                  ? Icons.dashboard
-                  : Icons.store,
-            ),
-            title: Text(
-              widget.currentUser?.userType == UserType.seller
-                  ? 'Seller Dashboard'
-                  : 'Become a Seller',
-            ),
-            dense: true,
-          ),
-        ),
-        const PopupMenuItem<int>(
-          value: 3,
-          child: ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Logout'),
-            dense: true,
-          ),
-        ),
-      ],
+  Widget _buildProfileButton(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.person, color: Colors.green.shade700), // Changed icon color
+      onPressed: widget.onProfileTap,
+      tooltip: 'Profile',
+      iconSize: 28,
     );
   }
 }

@@ -12,7 +12,14 @@ class _HeroSectionState extends State<HeroSection> {
   late PageController _pageController;
   late Timer _timer;
   int _currentPage = 0;
-  final int _totalPages = 5; 
+  final int _totalPages = 3; // Changed to 3 for the 3 images
+
+  // List of your asset images
+  final List<String> _images = [
+    'assets/images/slider.png', // Replace with your actual image names
+    'assets/images/slider.png',
+    'assets/images/slider.png',
+  ];
 
   @override
   void initState() {
@@ -22,12 +29,12 @@ class _HeroSectionState extends State<HeroSection> {
   }
 
   void _startAutoScroll() {
-    _timer = Timer.periodic(const Duration(seconds: 2, milliseconds: 300), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_pageController.hasClients) {
         _currentPage = (_currentPage + 1) % _totalPages;
         _pageController.animateToPage(
           _currentPage,
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
         );
       }
@@ -47,201 +54,90 @@ class _HeroSectionState extends State<HeroSection> {
       margin: const EdgeInsets.all(16),
       child: Column(
         children: [
-          // Welcome Banner
+          // Image Slider with Auto-scroll
           Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
+            height: 200,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.green.shade400, Colors.green.shade600],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.green.shade200,
+                  color: Colors.grey.shade300,
                   blurRadius: 8,
                   offset: const Offset(0, 4),
                 ),
               ],
             ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: null, // Infinite scroll
+                itemBuilder: (context, index) {
+                  final imageIndex = index % _totalPages;
+                  return _buildImageSlide(imageIndex);
+                },
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentPage = index % _totalPages;
+                  });
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          // Page indicators
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(_totalPages, (index) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                width: _currentPage == index ? 12 : 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: _currentPage == index
+                      ? Colors.green.shade700
+                      : Colors.grey.shade400,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              );
+            }),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImageSlide(int index) {
+    return Container(
+      width: double.infinity,
+      child: Image.asset(
+        _images[index],
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          // Fallback widget if image fails to load
+          return Container(
+            color: Colors.grey.shade200,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Fresh Groceries',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                Icon(
+                  Icons.image_not_supported,
+                  size: 50,
+                  color: Colors.grey.shade500,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Delivered to your doorstep',
+                  'Image ${index + 1}',
                   style: TextStyle(
+                    color: Colors.grey.shade600,
                     fontSize: 16,
-                    color: Colors.white.withOpacity(0.9),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () => Navigator.pushNamed(context, '/search'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.green.shade700,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text('Shop Now'),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          // Promotional Banners with Auto-scroll
-          SizedBox(
-            height: 120,
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: null, // Infinite scroll
-              itemBuilder: (context, index) {
-                final bannerIndex = index % _totalPages;
-                return _buildPromoBannerByIndex(bannerIndex);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPromoBannerByIndex(int index) {
-    switch (index) {
-      case 0:
-        return _buildPromoBanner(
-          'Fresh Fruits',
-          'Up to 30% OFF',
-          Colors.orange.shade400,
-          Icons.apple,
-        );
-      case 1:
-        return _buildPromoBanner(
-          'Vegetables',
-          'Farm Fresh Daily',
-          Colors.green.shade400,
-          Icons.eco,
-        );
-      case 2:
-        return _buildPromoBanner(
-          'Dairy Products',
-          'Pure & Natural',
-          Colors.blue.shade400,
-          Icons.local_drink,
-        );
-      case 3:
-        return _buildPromoBanner(
-          'Easy Returns',
-          'Return up to 6 hours',
-          Colors.purple.shade400,
-          Icons.refresh,
-        );
-      case 4:
-        return _buildContactBanner();
-      default:
-        return _buildPromoBanner(
-          'Fresh Fruits',
-          'Up to 30% OFF',
-          Colors.orange.shade400,
-          Icons.apple,
-        );
-    }
-  }
-
-  Widget _buildPromoBanner(String title, String subtitle, Color color, IconData icon) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 40, color: Colors.white),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white.withOpacity(0.9),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildContactBanner() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.teal.shade400,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.contact_phone, size: 40, color: Colors.white),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Contact Us',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                Text(
-                  '+91 98765 43210',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.white.withOpacity(0.9),
-                  ),
-                ),
-                Text(
-                  'support@freshgrocery.com',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.white.withOpacity(0.9),
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
