@@ -3,6 +3,7 @@ import '/models/user_model.dart';
 import '/services/auth_service.dart';
 import '/services/cart_service.dart';
 import '/widgets/header.dart';
+import '/widgets/search.dart';  // Add this import
 import '/widgets/hero.dart';
 import '/widgets/category.dart';
 import '/widgets/products.dart';
@@ -136,6 +137,20 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  // Handle search functionality
+  void _handleSearch(String query) {
+    if (!_isLoggedIn) {
+      Navigator.pushNamed(context, '/login');
+      return;
+    }
+    
+    Navigator.pushNamed(
+      context,
+      '/search',
+      arguments: {'query': query},
+    );
+  }
+
   void _handleSellerNavigation() {
     if (!_isLoggedIn) {
       Navigator.pushNamed(context, '/login');
@@ -236,10 +251,15 @@ class _HomeScreenState extends State<HomeScreen> {
           physics: const AlwaysScrollableScrollPhysics(), // This ensures pull-to-refresh works even when content doesn't fill the screen
           child: Column(
             children: [
+              // Add SearchWidget right after the header
+              SearchWidget(
+                onSearch: _handleSearch,
+                hintText: 'Search for fruits, vegetables...',
+              ),
+              const SizedBox(height: 2),
               const CategorySection(),        // Move this first
-              const SizedBox(height: 24),
               const HeroSection(),           // Move this second  
-              const SizedBox(height: 24),
+              const SizedBox(height: 8),
               ProductsSection(               // Keep this third
                 key: _productsKey,
                 refreshCartCount: _refreshCartCount,

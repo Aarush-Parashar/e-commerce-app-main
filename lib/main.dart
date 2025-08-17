@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+// Remove this import: import 'package:google_fonts/google_fonts.dart';
 import 'screens/splash_screen.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/signup_screen.dart';
@@ -68,14 +68,16 @@ class GroceryApp extends StatelessWidget {
         seedColor: AppColors.primary,
         brightness: Brightness.light,
       ),
-      textTheme: GoogleFonts.interTextTheme(),
+      // Use the local Poppins font family
+      textTheme: const TextTheme().apply(fontFamily: 'Poppins'),
       scaffoldBackgroundColor: AppColors.scaffoldBackground,
       appBarTheme: AppBarTheme(
         elevation: 0,
         scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
-        titleTextStyle: GoogleFonts.inter(
+        titleTextStyle: const TextStyle(
+          fontFamily: 'Poppins',
           fontSize: 18,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
@@ -92,7 +94,8 @@ class GroceryApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          textStyle: GoogleFonts.inter(
+          textStyle: const TextStyle(
+            fontFamily: 'Poppins',
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
@@ -123,11 +126,13 @@ class GroceryApp extends StatelessWidget {
         ),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        hintStyle: GoogleFonts.inter(
+        hintStyle: const TextStyle(
+          fontFamily: 'Poppins',
           color: AppColors.textSecondary,
           fontSize: 14,
         ),
-        labelStyle: GoogleFonts.inter(
+        labelStyle: const TextStyle(
+          fontFamily: 'Poppins',
           color: AppColors.textSecondary,
           fontSize: 14,
         ),
@@ -147,11 +152,13 @@ class GroceryApp extends StatelessWidget {
         unselectedItemColor: AppColors.textSecondary,
         type: BottomNavigationBarType.fixed,
         elevation: 8,
-        selectedLabelStyle: GoogleFonts.inter(
+        selectedLabelStyle: const TextStyle(
+          fontFamily: 'Poppins',
           fontSize: 12,
           fontWeight: FontWeight.w500,
         ),
-        unselectedLabelStyle: GoogleFonts.inter(
+        unselectedLabelStyle: const TextStyle(
+          fontFamily: 'Poppins',
           fontSize: 12,
           fontWeight: FontWeight.w400,
         ),
@@ -164,7 +171,6 @@ class GroceryApp extends StatelessWidget {
       case AppRoutes.splash:
         return _createRoute(const OnboardingScreen());
 
-     
       case AppRoutes.login:
         return _createRoute(const LoginScreen());
 
@@ -210,7 +216,10 @@ class GroceryApp extends StatelessWidget {
             body: Center(
               child: Text(
                 'Route not found: ${settings.name}',
-                style: GoogleFonts.inter(fontSize: 16),
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 16,
+                ),
               ),
             ),
           ),
@@ -220,7 +229,7 @@ class GroceryApp extends StatelessWidget {
 
   PageRouteBuilder _createRoute(Widget page, {RouteSettings? settings}) {
     return PageRouteBuilder(
-      settings: settings, // <--- THIS IS THE FIX
+      settings: settings,
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(1.0, 0.0);

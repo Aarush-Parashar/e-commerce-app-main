@@ -1220,7 +1220,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   const SizedBox(width: 8),
                   const Expanded(
                     child: Text(
-                      'Cart amount is ₹0.00. Please check your cart.',
+                      'Cart amount is BHD 0.00. Please check your cart.',
                       style: TextStyle(fontSize: 14),
                     ),
                   ),

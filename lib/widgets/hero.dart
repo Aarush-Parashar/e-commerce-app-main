@@ -24,16 +24,17 @@ class _HeroSectionState extends State<HeroSection> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    _pageController = PageController(
+      viewportFraction: 0.9, // Increased to show more of current card
+      initialPage: 1000, // Start from a high number to allow infinite scrolling in both directions
+    );
     _startAutoScroll();
   }
 
   void _startAutoScroll() {
     _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_pageController.hasClients) {
-        _currentPage = (_currentPage + 1) % _totalPages;
-        _pageController.animateToPage(
-          _currentPage,
+        _pageController.nextPage(
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
         );
@@ -51,68 +52,42 @@ class _HeroSectionState extends State<HeroSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          // Image Slider with Auto-scroll
-          Container(
-            height: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.shade300,
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: null, // Infinite scroll
-                itemBuilder: (context, index) {
-                  final imageIndex = index % _totalPages;
-                  return _buildImageSlide(imageIndex);
-                },
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentPage = index % _totalPages;
-                  });
-                },
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          // Page indicators
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(_totalPages, (index) {
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                width: _currentPage == index ? 12 : 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  color: _currentPage == index
-                      ? Colors.green.shade700
-                      : Colors.grey.shade400,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              );
-            }),
-          ),
-        ],
+      margin: const EdgeInsets.only(top: 0, bottom: 4, left: 8, right: 8), // Removed top margin
+      child: Container(
+        height: 160, // Reduced height
+        child: PageView.builder(
+          controller: _pageController,
+          itemCount: null, // Infinite scroll
+          itemBuilder: (context, index) {
+            final imageIndex = index % _totalPages;
+            return _buildImageSlide(imageIndex);
+          },
+          onPageChanged: (index) {
+            setState(() {
+              _currentPage = index % _totalPages;
+            });
+          },
+        ),
       ),
     );
   }
 
   Widget _buildImageSlide(int index) {
     return Container(
-      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 2), // Reduced to 1px margin
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade300,
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
       child: Image.asset(
         _images[index],
         fit: BoxFit.cover,
+        width: double.infinity,
         errorBuilder: (context, error, stackTrace) {
           // Fallback widget if image fails to load
           return Container(
@@ -122,7 +97,7 @@ class _HeroSectionState extends State<HeroSection> {
               children: [
                 Icon(
                   Icons.image_not_supported,
-                  size: 50,
+                  size: 40,
                   color: Colors.grey.shade500,
                 ),
                 const SizedBox(height: 8),
@@ -130,7 +105,7 @@ class _HeroSectionState extends State<HeroSection> {
                   'Image ${index + 1}',
                   style: TextStyle(
                     color: Colors.grey.shade600,
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

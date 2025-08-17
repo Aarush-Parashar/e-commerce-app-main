@@ -87,22 +87,21 @@ class _HeaderState extends State<Header> {
     final isMobile = screenWidth < 768;
 
     return AppBar(
-      backgroundColor: Colors.white, // Changed to white background
-      elevation: 2, // Added slight elevation for better visibility
-      automaticallyImplyLeading: false, // Remove hamburger menu
+      backgroundColor: Colors.white,
+      elevation: 2,
+      automaticallyImplyLeading: false,
       title: _buildTitle(isDesktop, isTablet, isMobile),
       actions: _buildActions(isDesktop, isTablet, isMobile, context),
-      centerTitle: true, // Center the title
-      leading: _buildLeadingLogo(isDesktop, isTablet, isMobile), // Logo on the left
+      centerTitle: true,
+      leading: _buildLeadingLogo(isDesktop, isTablet, isMobile),
     );
   }
 
-  // New method to build leading logo
   Widget _buildLeadingLogo(bool isDesktop, bool isTablet, bool isMobile) {
-    double logoSize = isDesktop ? 32 : (isTablet ? 28 : 24);
+    double logoSize = isDesktop ? 24 : (isTablet ? 22 : 20);
     
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(8.0),
       child: Image.asset(
         'images/logo.png',
         width: logoSize,
@@ -113,15 +112,15 @@ class _HeaderState extends State<Header> {
   }
 
   Widget _buildTitle(bool isDesktop, bool isTablet, bool isMobile) {
-    // Smaller responsive font sizes
-    double fontSize = isDesktop ? 20 : (isTablet ? 18 : 16);
+    // Smaller font sizes to fit everything properly
+    double fontSize = isDesktop ? 18 : (isTablet ? 16 : 14);
 
     return Text(
       'Fruits and Vegetables',
       style: TextStyle(
-        color: Colors.green.shade700, // Changed text color to green for contrast
-        fontWeight: FontWeight.w600, // Slightly less bold
-        fontSize: fontSize, // Smaller font size
+        color: Colors.green.shade700,
+        fontWeight: FontWeight.w700,
+        fontSize: fontSize,
         letterSpacing: 0.5,
       ),
       textAlign: TextAlign.center,
@@ -131,49 +130,18 @@ class _HeaderState extends State<Header> {
   List<Widget> _buildActions(bool isDesktop, bool isTablet, bool isMobile, BuildContext context) {
     List<Widget> actions = [];
 
-    if (!widget.isLoggedIn) {
-      // When not logged in, show only login button
-      actions.add(
-        Padding(
-          padding: const EdgeInsets.only(right: 16.0),
-          child: TextButton.icon(
-            onPressed: () => Navigator.pushNamed(context, '/login'),
-            icon: Icon(Icons.login, color: Colors.green.shade700, size: 20), // Changed icon color
-            label: Text(
-              'Login',
-              style: TextStyle(
-                color: Colors.green.shade700, // Changed text color
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.green.shade50, // Light green background
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-                side: BorderSide(color: Colors.green.shade300), // Added border
-              ),
-            ),
-          ),
-        ),
-      );
-      return actions;
-    }
-
-    // Right side - Cart and Profile icons with proper spacing
     actions.addAll([
-      const SizedBox(width: 8), // Added space before icons
-      _buildCartButton(),
-      const SizedBox(width: 12), // Space between cart and profile
+      _buildCartButton(context),
+      const SizedBox(width: 4), // Reduced space between cart and profile to keep them together
       _buildProfileButton(context),
-      const SizedBox(width: 16), // Space after profile
+      const SizedBox(width: 16), // More space from right edge to shift both icons left
     ]);
 
     return actions;
   }
 
-  Widget _buildCartButton() {
-    // Use real-time count if available, otherwise fallback to passed count
+  Widget _buildCartButton(BuildContext context) {
+    // Use real-time count if available and logged in, otherwise show 0
     final displayCount = widget.isLoggedIn ? (_realTimeCartCount > 0 ? _realTimeCartCount : widget.cartItemCount) : 0;
     
     return Stack(
@@ -181,16 +149,17 @@ class _HeaderState extends State<Header> {
       children: [
         IconButton(
           icon: const Icon(Icons.shopping_cart),
-          color: Colors.green.shade700, // Changed icon color for contrast
+          color: Colors.green.shade700,
           onPressed: () {
-            widget.onCartTap();
-            // Refresh cart count when cart is accessed
             if (widget.isLoggedIn) {
+              Navigator.pushNamed(context, '/cart');
               _loadRealTimeCartCount();
+            } else {
+              Navigator.pushNamed(context, '/login');
             }
           },
           tooltip: 'Cart',
-          iconSize: 28,
+          iconSize: 20,
         ),
         if (displayCount > 0 && widget.isLoggedIn)
           Positioned(
@@ -233,10 +202,21 @@ class _HeaderState extends State<Header> {
 
   Widget _buildProfileButton(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.person, color: Colors.green.shade700), // Changed icon color
-      onPressed: widget.onProfileTap,
+      icon: Image.asset(
+        'assets/images/ico_user.png',
+        width: 20,
+        height: 20,
+        color: Colors.green.shade700,
+      ),
+      onPressed: () {
+        if (widget.isLoggedIn) {
+          Navigator.pushNamed(context, '/profile');
+        } else {
+          Navigator.pushNamed(context, '/login');
+        }
+      },
       tooltip: 'Profile',
-      iconSize: 28,
+      iconSize: 20,
     );
   }
 }

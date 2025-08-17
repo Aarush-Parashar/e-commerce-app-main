@@ -52,15 +52,16 @@ class _SearchWidgetState extends State<SearchWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      height: 40,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.shade200,
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            blurRadius: 4,
+            offset: const Offset(0, 1),
           ),
         ],
       ),
@@ -72,19 +73,19 @@ class _SearchWidgetState extends State<SearchWidget> {
           hintText: widget.hintText,
           hintStyle: TextStyle(
             color: Colors.grey.shade500,
-            fontSize: 16,
+            fontSize: 14,
           ),
           prefixIcon: Icon(
             Icons.search,
             color: Colors.grey.shade600,
-            size: 24,
+            size: 20,
           ),
           suffixIcon: _searchController.text.isNotEmpty
               ? IconButton(
                   icon: Icon(
                     Icons.clear,
                     color: Colors.grey.shade600,
-                    size: 20,
+                    size: 18,
                   ),
                   onPressed: () {
                     _searchController.clear();
@@ -95,18 +96,19 @@ class _SearchWidgetState extends State<SearchWidget> {
                   icon: Icon(
                     Icons.arrow_forward,
                     color: Colors.green.shade700,
-                    size: 24,
+                    size: 20,
                   ),
                   onPressed: _handleSearch,
                 ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 16,
+            horizontal: 12,
+            vertical: 8,
           ),
+          isDense: true,
         ),
         style: const TextStyle(
-          fontSize: 16,
+          fontSize: 14,
           color: Colors.black87,
         ),
         onChanged: (value) {

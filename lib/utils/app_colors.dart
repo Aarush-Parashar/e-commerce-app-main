@@ -17,7 +17,7 @@ class AppColors {
   static const Color textTertiary = Color(0xFF9E9E9E);
 
   // Background Colors
-  static const Color scaffoldBackground = Color(0xFFFAFAFA);
+  static const Color scaffoldBackground = Colors.white;
   static const Color cardBackground = Colors.white;
   static const Color inputBackground = Color(0xFFF5F5F5);
 

@@ -547,7 +547,7 @@ class ProductsSectionState extends State<ProductsSection> {
                   children: [
                     Flexible(
                       child: Text(
-                        '₹${product['price']?.toString() ?? '0'}',
+                        'BHD${product['price']?.toString() ?? '0'}',
                         style: TextStyle(
                           fontSize: screenWidth > 600 ? 16 : 14,
                           fontWeight: FontWeight.bold,

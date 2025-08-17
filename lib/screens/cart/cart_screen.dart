@@ -463,7 +463,7 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '₹${price.toStringAsFixed(2)} / ${item['unit']?.toString() ?? 'unit'}',
+                      'BHD${price.toStringAsFixed(2)} / ${item['unit']?.toString() ?? 'unit'}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey.shade600,
@@ -526,7 +526,7 @@ class _CartScreenState extends State<CartScreen> {
                         
                         // Item total
                         Text(
-                          '₹${itemTotal.toStringAsFixed(2)}',
+                          'BHD${itemTotal.toStringAsFixed(2)}',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -575,7 +575,7 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ),
                   Text(
-                    '₹${_totalPrice.toStringAsFixed(2)}',
+                    'BHD${_totalPrice.toStringAsFixed(2)}',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

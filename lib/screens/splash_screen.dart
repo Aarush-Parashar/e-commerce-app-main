@@ -118,16 +118,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             itemBuilder: (context, index) {
               final slide = _slides[index];
               if (index == 0) {
-                // First slide with custom layout - animation left, never cut, never overridden
+                // First slide with LEFT-ALIGNED animation layout
                 return Container(
                   color: _slides[index].color,
                   child: SafeArea(
                     child: Column(
                       children: [
+                        // Title Section
                         Expanded(
                           flex: 2,
                           child: Container(
-                            padding: EdgeInsets.only(top: 60, bottom: 0, left: 30, right: 30),
+                            padding: EdgeInsets.only(top: 60, bottom: 0, left: 20, right: 20),
                             child: Text(
                               _slides[index].title,
                               style: GoogleFonts.poppins(
@@ -140,28 +141,35 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                           ),
                         ),
-                        // Animation: full left, never cut, never overlapped
+                        // Animation Section - LEFT-ALIGNED with left shift
                         Expanded(
                           flex: 3,
-                          child: Row(
-                            children: [
-                              SizedBox(width: 20), // More left margin
-                              Expanded(
-                                child: Container(
-                                  // AspectRatio prevents cut on right, so animation fits
-                                  child: AspectRatio(
-                                    aspectRatio: 1.45, // matches pineapple lottie ratio
-                                    child: Lottie.asset(
-                                      slide.lottiePath,
-                                      fit: BoxFit.contain,
+                          child: Container(
+                            width: double.infinity,
+                            clipBehavior: Clip.none, // Don't clip the overflowing content
+                            child: Stack(
+                              clipBehavior: Clip.none, // Don't clip in Stack either
+                              children: [
+                                Positioned(
+                                  left: -40, // Position 40 pixels to the left of center
+                                  top: 0,
+                                  bottom: 0,
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.9, // Even more width
+                                    child: Center(
+                                      child: Lottie.asset(
+                                        slide.lottiePath,
+                                        fit: BoxFit.contain,
+                                        alignment: Alignment.center,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(width: MediaQuery.of(context).size.width * 0.18), // Plenty right padding so never gets cut or overlapped
-                            ],
+                              ],
+                            ),
                           ),
                         ),
+                        // Description Section
                         Expanded(
                           flex: 2,
                           child: Container(

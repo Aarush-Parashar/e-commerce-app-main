@@ -24,21 +24,58 @@ class CategorySection extends StatelessWidget {
     ];
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 20, 16, 0), // Added top margin of 20
+      margin: const EdgeInsets.fromLTRB(16, 4, 16, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Category names trail
+          Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: categories.map((category) {
+                  final isLast = category == categories.last;
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        category['name'] as String,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                      if (!isLast)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                          child: Text(
+                            '',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.grey.shade400,
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+          // Category icons
           SizedBox(
-            height: 110,
+            height: 90,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.only(right: 4),
+              padding: const EdgeInsets.only(right: 2),
               itemCount: categories.length,
               itemBuilder: (context, index) {
                 final category = categories[index];
                 return Container(
-                  width: 85,
-                  margin: const EdgeInsets.only(right: 12),
+                  width: 65,
+                  margin: const EdgeInsets.only(right: 2),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(
@@ -51,28 +88,27 @@ class CategorySection extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
-                          width: 60,
-                          height: 60,
+                          width: 45,
+                          height: 45,
                           decoration: BoxDecoration(
                             color: (category['color'] as Color).withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(22.5),
                             border: Border.all(
                               color: (category['color'] as Color).withOpacity(0.3),
                               width: 1,
                             ),
                           ),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(22.5),
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(6.0),
                               child: Image.asset(
                                 category['image'] as String,
                                 fit: BoxFit.contain,
                                 errorBuilder: (context, error, stackTrace) {
-                                  // Fallback to icon if image fails to load
                                   return Icon(
                                     Icons.image_not_supported,
-                                    size: 30,
+                                    size: 22,
                                     color: category['color'] as Color,
                                   );
                                 },
@@ -80,17 +116,17 @@ class CategorySection extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 4),
                         Flexible(
                           child: Container(
-                            width: 80,
+                            width: 60,
                             child: Text(
                               category['name'] as String,
                               style: TextStyle(
-                                fontSize: 11,
+                                fontSize: 10,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.grey.shade700,
-                                height: 1.2,
+                                height: 1.1,
                               ),
                               textAlign: TextAlign.center,
                               maxLines: 2,

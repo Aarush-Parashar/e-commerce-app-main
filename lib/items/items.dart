@@ -5,8 +5,8 @@ class GroceryItems {
   // Using direct image URLs that actually represent the correct items
   static const Map<String, String> items = {
     // Fruits
-    'Apple'       : 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&h=400&fit=crop',
-    'Banana'      : 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=400&fit=crop',
+    'Apple'       : 'assets/images/apple.png',
+    'Banana'      : 'assets/images/banana.png',
     'Orange'      : 'https://images.unsplash.com/photo-1580052614034-c55d20bfee3b?w=400&h=400&fit=crop',
     'Mango'       : 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&h=400&fit=crop', // Fixed: actual mango
     'Grapes'      : 'https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=400&h=400&fit=crop',
